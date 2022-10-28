@@ -21,7 +21,7 @@ using Images, MLDatasets, Flux, Distributions, PlutoUI; md"Imports here..."
 MNIST_train, CIFAR10_train = MNIST(:train), CIFAR10(:train)
 
 # ╔═╡ 13b38576-a56b-4f8f-8b88-cd25d6f78294
-train = CIFAR10_train #MNIST_train
+train = MNIST_train
 
 # ╔═╡ f5b33159-717c-41c6-820a-f00a731ba97d
 dims = size(train[1][1])
@@ -37,7 +37,7 @@ size(train[k][1])
 I = Gray.(train[k][1])'
 
 # ╔═╡ 39f166af-eb88-4a73-9333-64f376b34fe6
-sample(k=1) = [rand(RGB, dims) for _ in 1:k]
+sample(k=1) = [rand(Gray, dims) for _ in 1:k]
 
 # ╔═╡ b79423db-073b-4e70-ad06-59a179d4e104
 α = 0.001
@@ -77,7 +77,7 @@ md"""
 """
 `ᾱ(t, [α<:Function])`
 
-Cumulative product of αₛ from `s=0:t`
+Cumulative product of αₛ from `s=1:t`
 """
 function ᾱ(t::Int, α::Function = x->0.999)
 	prod(α(s) for s in 1:t) 
@@ -114,8 +114,10 @@ Derivation from [here](https://www.youtube.com/watch?v=HoKDTa5jHvg&t=1338s)
 function forward_diffusion(x₀, t, α=0.1)
 	# Noise of shape of image
 	ε = rand(Normal(0.5, 1), size(x₀)) .|> clamp01 
+	
 	# Scaling factor at time t
 	ᾱₜ = ᾱ(t) 
+	
 	# Image + Noise
 	scaled_noise = @. √(1-ᾱₜ)*ε
 	scaled_img = @. √(ᾱₜ) * x₀
@@ -123,12 +125,16 @@ function forward_diffusion(x₀, t, α=0.1)
 	return xₜ
 end
 
+# ╔═╡ b52f1209-290f-4f37-9400-06a3df353218
+@bind t Slider(1:2500)
+
 # ╔═╡ eb6f88b7-2968-4fa1-8cdf-657f231e2b7c
 begin
-	# img = Gray.(train[1][1]')
+	img = Gray.(train[1][1]')
 	# img = reshape([train[k][1][i,j,:] for i in 1:32 for j in 1:32], (32,32))
-	img_p = forward_diffusion(train[k][1], 500)
-	reshape([RGB.(img_p[i,j,:]) for i in 1:32 for j in 1:32], (32,32))
+	img_p = forward_diffusion(train[k][1], t)
+	Gray.(img_p')
+	# reshape([RGB.(img_p[i,j,:]) for i in 1:32 for j in 1:32], (32,32))
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -154,7 +160,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "d1045d917321617569b8478e00a051d40af73a0b"
+project_hash = "ca5f69722feeec387140bf63c1a98de799561c53"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1689,6 +1695,7 @@ version = "17.4.0+0"
 # ╟─cbc152b5-9261-475d-9059-0c5d143fc093
 # ╠═a1871e9c-24c1-4430-a9c1-3464e92940d0
 # ╠═52782757-cce4-4e6d-b67f-2a99137bbd82
+# ╠═b52f1209-290f-4f37-9400-06a3df353218
 # ╠═eb6f88b7-2968-4fa1-8cdf-657f231e2b7c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
