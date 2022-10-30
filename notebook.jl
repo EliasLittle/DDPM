@@ -17,6 +17,9 @@ end
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
 using Images, MLDatasets, Flux, Distributions, PlutoUI; md"Imports here..."
 
+# ╔═╡ daeda629-187d-473d-8b95-09cdcddaabea
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+
 # ╔═╡ 4152af03-3443-400b-b6b8-875593be439d
 MNIST_train, CIFAR10_train = MNIST(:train), CIFAR10(:train)
 
@@ -135,6 +138,81 @@ begin
 	img_p = forward_diffusion(train[k][1], t)
 	Gray.(img_p')
 	# reshape([RGB.(img_p[i,j,:]) for i in 1:32 for j in 1:32], (32,32))
+end
+
+# ╔═╡ 64acadbc-9037-4510-af6a-d6c990d66d08
+function SinusoidalPositionEmbeddings(dim)
+	
+end
+
+# ╔═╡ 1808f144-e429-4164-900f-4a36bc647de7
+"""
+A block that returns a chain
+"""
+function BlockChain(in_chn, out_chn, time_dim, up=false)
+	if up in_chn *= 2 end
+	# up && in_chn *= 2
+	x_ops = Chain(
+		Conv((3,3), in_chn => out_chn, σ=relu, pad=1),
+		BatchNorm(out_chn)
+	)
+	time_ops = Dense(time_dim=>out_chn, σ=relu)
+	result = Chain(
+		Parallel(+; α=x_ops, t=time_ops),
+		Conv((3,3), out_chn=>out_chn, σ=relu, pad=1),
+		BatchNorm(out_chn),
+		up ? 
+			ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) 
+			: Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
+	)
+end
+
+# ╔═╡ 2f83a42e-8454-4e96-af17-8a7dba19b4cd
+# """
+# channels is ordered largest to smallest
+
+# """
+# function UNet(x, t, channels, time_dim, out_dim)
+# 	image_channels = 3 # extract from x
+# 	time_emb = SinusoidalPositionEmbeddings(time_dim)
+# 	downs = [BlockChain(channels[i], channels[i+1], time_dim) for i in 		1:length(channels)-1]
+# 	ups = [BlockChain(channels[i], channels[i+1], time_dim, up=true) for i in 		1:length(channels)-1]
+# 	model(x) = vcat(x,x)
+# 	for i in 1:length(channels)
+# 		model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
+# 	return Chain(
+# 		Conv((3,3), image_channels => channels[end], σ=relu, pad=1),
+# 		model,
+# 		Conv((3,3), channels[end] => out_dim)
+# 	)
+# end
+
+# ╔═╡ 97be106e-09a1-4219-8651-3cdc74de5562
+struct UNet
+	channels::Vector{Int}
+	time_dim::Int
+	out_dim::Int
+	downs::Vector{T}
+	ups::Vector{T}
+	time_emb<:Function
+end
+
+# ╔═╡ d4df0dce-d004-481e-ba05-9ddcbd7df2db
+function (U::UNet)(x,t)
+	image_channels = 3 # extract from x
+	time_emb = SinusoidalPositionEmbeddings(time_dim)
+	model(x) = vcat(x,x)
+	for i in 1:length(channels)
+		model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
+	end
+	α=Conv((3,3), image_channels => channels[end], σ=relu, pad=1)(x)
+	β=model(α,t)
+	return Conv((3,3), channels[end] => out_dim)(β)
+	# return Chain(
+	# 	Conv((3,3), image_channels => channels[end], σ=relu, pad=1),
+	# 	model,
+	# 	Conv((3,3), channels[end] => out_dim)
+	# )
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -370,9 +448,9 @@ version = "1.4.1"
 
 [[deps.ContextVariablesX]]
 deps = ["Compat", "Logging", "UUIDs"]
-git-tree-sha1 = "25cc3803f1030ab855e383129dcd3dc294e322cc"
+git-tree-sha1 = "8ccaa8c655bc1b83d2da4d569c9b28254ababd6e"
 uuid = "6add18c4-b38d-439d-96f6-d6bc489c04c5"
-version = "0.1.3"
+version = "0.1.2"
 
 [[deps.CoordinateTransformations]]
 deps = ["LinearAlgebra", "StaticArrays"]
@@ -507,9 +585,9 @@ version = "3.3.10+0"
 
 [[deps.FLoops]]
 deps = ["BangBang", "Compat", "FLoopsBase", "InitialValues", "JuliaVariables", "MLStyle", "Serialization", "Setfield", "Transducers"]
-git-tree-sha1 = "ffb97765602e3cbe59a0589d237bf07f245a8576"
+git-tree-sha1 = "4391d3ed58db9dc5a9883b23a0578316b4798b1f"
 uuid = "cc61a311-1640-44b5-9fba-1b764f453329"
-version = "0.2.1"
+version = "0.2.0"
 
 [[deps.FLoopsBase]]
 deps = ["ContextVariablesX"]
@@ -569,9 +647,9 @@ uuid = "f6369f11-7733-5829-9624-2563aa707210"
 version = "0.10.32"
 
 [[deps.FunctionWrappers]]
-git-tree-sha1 = "d62485945ce5ae9c0c48f124a84998d755bae00e"
+git-tree-sha1 = "241552bc2209f0fa068b6415b1942cc0aa486bcc"
 uuid = "069b7b12-0de2-55c6-9aab-29f3d0a68a2e"
-version = "1.1.3"
+version = "1.1.2"
 
 [[deps.Functors]]
 deps = ["LinearAlgebra"]
@@ -807,9 +885,9 @@ version = "0.3.1"
 
 [[deps.InlineStrings]]
 deps = ["Parsers"]
-git-tree-sha1 = "d0ca109edbae6b4cc00e751a29dcb15a124053d6"
+git-tree-sha1 = "d19f9edd8c34760dca2de2b503f969d8700ed288"
 uuid = "842dd82b-1e85-43dc-bf29-5d0ee9dffc48"
-version = "1.2.0"
+version = "1.1.4"
 
 [[deps.IntegralArrays]]
 deps = ["ColorTypes", "FixedPointNumbers", "IntervalSets"]
@@ -835,9 +913,9 @@ version = "0.7.0"
 
 [[deps.Interpolations]]
 deps = ["Adapt", "AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
-git-tree-sha1 = "842dd89a6cb75e02e85fdd75c760cdc43f5d6863"
+git-tree-sha1 = "f67b55b6447d36733596aea445a9f119e83498b6"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-version = "0.14.6"
+version = "0.14.5"
 
 [[deps.IntervalSets]]
 deps = ["Dates", "Random", "Statistics"]
@@ -873,9 +951,9 @@ version = "1.0.0"
 
 [[deps.JLD2]]
 deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "Pkg", "Printf", "Reexport", "TranscodingStreams", "UUIDs"]
-git-tree-sha1 = "1c3ff7416cb727ebf4bab0491a56a296d7b8cf1d"
+git-tree-sha1 = "0d0ad913e827d13c5e88a73f9333d7e33c424576"
 uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
-version = "0.4.25"
+version = "0.4.24"
 
 [[deps.JLLWrappers]]
 deps = ["Preferences"]
@@ -1024,9 +1102,9 @@ version = "0.2.11"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
-git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
+git-tree-sha1 = "3d3e902b31198a27340d0bf00d6ac452866021cf"
 uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
-version = "0.5.10"
+version = "0.5.9"
 
 [[deps.MappedArrays]]
 git-tree-sha1 = "e8b359ef06ec72e8c030463fe02efe5527ee5142"
@@ -1056,9 +1134,9 @@ version = "0.7.1"
 
 [[deps.MicroCollections]]
 deps = ["BangBang", "InitialValues", "Setfield"]
-git-tree-sha1 = "4d5917a26ca33c66c8e5ca3247bd163624d35493"
+git-tree-sha1 = "6bb7786e4f24d44b4e29df03c69add1b63d88f01"
 uuid = "128add7d-3638-4c79-886c-908ea0c25c34"
-version = "0.1.3"
+version = "0.1.2"
 
 [[deps.Missings]]
 deps = ["DataAPI"]
@@ -1161,9 +1239,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL]]
 deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
-git-tree-sha1 = "ebe81469e9d7b471d7ddb611d9e147ea16de0add"
+git-tree-sha1 = "02be9f845cb58c2d6029a6d5f67f4e0af3237814"
 uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
-version = "1.2.1"
+version = "1.1.3"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1196,9 +1274,9 @@ version = "0.11.16"
 
 [[deps.PNGFiles]]
 deps = ["Base64", "CEnum", "ImageCore", "IndirectArrays", "OffsetArrays", "libpng_jll"]
-git-tree-sha1 = "f809158b27eba0c18c269cf2a2be6ed751d3e81d"
+git-tree-sha1 = "e925a64b8585aa9f4e3047b8d2cdc3f0e79fd4e4"
 uuid = "f57f5aa1-a3ce-4bc8-8ab9-96f992907883"
-version = "0.3.17"
+version = "0.3.16"
 
 [[deps.PaddedViews]]
 deps = ["OffsetArrays"]
@@ -1384,10 +1462,10 @@ version = "1.3.15"
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
 [[deps.Setfield]]
-deps = ["ConstructionBase", "Future", "MacroTools", "StaticArraysCore"]
-git-tree-sha1 = "e2cc6d8c88613c05e1defb55170bf5ff211fbeac"
+deps = ["ConstructionBase", "Future", "MacroTools", "Requires"]
+git-tree-sha1 = "38d88503f695eb0301479bc9b0d4320b378bafe5"
 uuid = "efcf1570-3423-57d1-acb7-fd33fddbac46"
-version = "1.1.1"
+version = "0.8.2"
 
 [[deps.SharedArrays]]
 deps = ["Distributed", "Mmap", "Random", "Serialization"]
@@ -1442,9 +1520,9 @@ version = "2.1.7"
 
 [[deps.SplittablesBase]]
 deps = ["Setfield", "Test"]
-git-tree-sha1 = "e08a62abc517eb79667d0a29dc08a3b589516bb5"
+git-tree-sha1 = "39c9f91521de844bad65049efd4f9223e7ed43f9"
 uuid = "171d559e-b47b-412a-8079-5efa626c420e"
-version = "0.1.15"
+version = "0.1.14"
 
 [[deps.StackViews]]
 deps = ["OffsetArrays"]
@@ -1577,9 +1655,9 @@ version = "0.9.9"
 
 [[deps.Transducers]]
 deps = ["Adapt", "ArgCheck", "BangBang", "Baselet", "CompositionsBase", "DefineSingletons", "Distributed", "InitialValues", "Logging", "Markdown", "MicroCollections", "Requires", "Setfield", "SplittablesBase", "Tables"]
-git-tree-sha1 = "77fea79baa5b22aeda896a8d9c6445a74500a2c2"
+git-tree-sha1 = "c76399a3bbe6f5a88faa33c8f8a65aa631d95013"
 uuid = "28d57a85-8fef-5791-bfe6-a80928e7c999"
-version = "0.4.74"
+version = "0.4.73"
 
 [[deps.Tricks]]
 git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
@@ -1679,7 +1757,8 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╠═4bbf453c-4779-11ed-0dbb-cf0727660437
-# ╠═4152af03-3443-400b-b6b8-875593be439d
+# ╠═daeda629-187d-473d-8b95-09cdcddaabea
+# ╟─4152af03-3443-400b-b6b8-875593be439d
 # ╠═13b38576-a56b-4f8f-8b88-cd25d6f78294
 # ╠═f5b33159-717c-41c6-820a-f00a731ba97d
 # ╠═4e0715e7-950b-4bef-b4fc-9a54e8b4ded4
@@ -1697,5 +1776,10 @@ version = "17.4.0+0"
 # ╠═52782757-cce4-4e6d-b67f-2a99137bbd82
 # ╠═b52f1209-290f-4f37-9400-06a3df353218
 # ╠═eb6f88b7-2968-4fa1-8cdf-657f231e2b7c
+# ╠═64acadbc-9037-4510-af6a-d6c990d66d08
+# ╠═1808f144-e429-4164-900f-4a36bc647de7
+# ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
+# ╠═97be106e-09a1-4219-8651-3cdc74de5562
+# ╠═d4df0dce-d004-481e-ba05-9ddcbd7df2db
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
