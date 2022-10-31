@@ -200,6 +200,9 @@ begin
 		model::Any
 	end
 
+	Flux.@functor UNet 
+	# Unsure if this is needed, but it's used in the custom layers page of the Flux docs
+
 	function UNet(channels, img_channels, time_dim, out_dim)
 		
 		downs = [BlockChain(channels[i], channels[i+1], time_dim) for i in 		1:length(channels)-1]
@@ -239,7 +242,7 @@ begin
 end
 
 # ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
-my_model = UNet([1024,512], 3, 10, 3)
+my_model = UNet([1024,512,256,128,64], 3, 10, 3).model
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
