@@ -142,28 +142,28 @@ end
 
 # ╔═╡ 64acadbc-9037-4510-af6a-d6c990d66d08
 function SinusoidalPositionEmbeddings(dim)
-	
+	x->x
 end
 
 # ╔═╡ 1808f144-e429-4164-900f-4a36bc647de7
 """
 A block that returns a chain
 """
-function BlockChain(in_chn, out_chn, time_dim, up=false)
+function BlockChain(in_chn, out_chn, time_dim; up=false)
 	if up in_chn *= 2 end
 	# up && in_chn *= 2
 	x_ops = Chain(
-		Conv((3,3), in_chn => out_chn, σ=relu, pad=1),
+		Conv((3,3), in_chn => out_chn, relu, pad=1),
 		BatchNorm(out_chn)
 	)
-	time_ops = Dense(time_dim=>out_chn, σ=relu)
-	result = Chain(
+	time_ops = Dense(time_dim=>out_chn, relu)
+	return Chain(
 		Parallel(+; α=x_ops, t=time_ops),
-		Conv((3,3), out_chn=>out_chn, σ=relu, pad=1),
+		Conv((3,3), out_chn=>out_chn, relu, pad=1),
 		BatchNorm(out_chn),
 		up ? 
-			ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) 
-			: Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
+			ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) :
+			Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
 	)
 end
 
@@ -188,32 +188,58 @@ end
 # end
 
 # ╔═╡ 97be106e-09a1-4219-8651-3cdc74de5562
-struct UNet
-	channels::Vector{Int}
-	time_dim::Int
-	out_dim::Int
-	downs::Vector{T}
-	ups::Vector{T}
-	time_emb<:Function
+begin
+	struct UNet
+		channels::Vector{Int}
+		img_channels::Int
+		time_dim::Int
+		out_dim::Int
+		downs::Vector
+		ups::Vector
+		time_emb::Any
+		model::Any
+	end
+
+	function UNet(channels, img_channels, time_dim, out_dim)
+		
+		downs = [BlockChain(channels[i], channels[i+1], time_dim) for i in 		1:length(channels)-1]
+		
+		ups = [BlockChain(channels[i], channels[i+1], time_dim, up=true) for i in 		1:length(channels)-1]
+		
+		time_emb = SinusoidalPositionEmbeddings(time_dim)
+		
+		model(x) = vcat(x,x)
+		for i in 1:length(channels)-1
+			model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
+		end
+
+		model = Chain(
+			Parallel((a,b)->(a,b); 
+				α=Conv((3,3), img_channels => channels[end], relu, pad=1),
+				β=x->x
+			),
+			model,
+			Conv((3,3), channels[end] => out_dim)
+		)
+
+		return UNet(
+			channels::Vector{Int}, 
+			img_channels::Int, 
+			time_dim::Int,
+			out_dim::Int, 
+			downs::Vector,
+			ups::Vector,
+			time_emb, 
+			model)
+	end
+
+	function (U::UNet)(x, t)
+		return U.model(x, t)
+	end
 end
 
-# ╔═╡ d4df0dce-d004-481e-ba05-9ddcbd7df2db
-function (U::UNet)(x,t)
-	image_channels = 3 # extract from x
-	time_emb = SinusoidalPositionEmbeddings(time_dim)
-	model(x) = vcat(x,x)
-	for i in 1:length(channels)
-		model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
-	end
-	α=Conv((3,3), image_channels => channels[end], σ=relu, pad=1)(x)
-	β=model(α,t)
-	return Conv((3,3), channels[end] => out_dim)(β)
-	# return Chain(
-	# 	Conv((3,3), image_channels => channels[end], σ=relu, pad=1),
-	# 	model,
-	# 	Conv((3,3), channels[end] => out_dim)
-	# )
-end
+# ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
+my_model = UNet([1024,512], 3, 10, 3)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1780,6 +1806,6 @@ version = "17.4.0+0"
 # ╠═1808f144-e429-4164-900f-4a36bc647de7
 # ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # ╠═97be106e-09a1-4219-8651-3cdc74de5562
-# ╠═d4df0dce-d004-481e-ba05-9ddcbd7df2db
+# ╠═8768f291-c02a-4967-b6d3-d9e140502dbd
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
