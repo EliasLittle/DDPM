@@ -141,8 +141,23 @@ begin
 end
 
 # ╔═╡ 64acadbc-9037-4510-af6a-d6c990d66d08
-function SinusoidalPositionEmbeddings(dim)
-	x->x
+"""
+Custom layer producing time embeddings
+"""
+function SinusoidalPositionEmbeddings(dim, timestep)
+	half = dim//2
+	embeddings = log(10000) / (half - 1)
+	embeddings = exp.([i for i in 0:half-1] .* -embeddings)
+	embeddings = timestep .* embeddings
+	embeddings = vcat([sin(e) for e in embeddings], [cos(e) for e in embeddings])
+	return embeddings
+end
+
+# ╔═╡ bae6e88e-c671-45ac-9b0b-6809e9cdd019
+begin
+	dim = 8
+	time = [1 2 3]
+	emb = SinusoidalPositionEmbeddings(dim, time)
 end
 
 # ╔═╡ 1808f144-e429-4164-900f-4a36bc647de7
@@ -196,21 +211,15 @@ begin
 		out_dim::Int
 		downs::Vector
 		ups::Vector
-		time_emb::Any
 		model::Any
 	end
-
-	Flux.@functor UNet 
-	# Unsure if this is needed, but it's used in the custom layers page of the Flux docs
 
 	function UNet(channels, img_channels, time_dim, out_dim)
 		
 		downs = [BlockChain(channels[i], channels[i+1], time_dim) for i in 		1:length(channels)-1]
 		
 		ups = [BlockChain(channels[i], channels[i+1], time_dim, up=true) for i in 		1:length(channels)-1]
-		
-		time_emb = SinusoidalPositionEmbeddings(time_dim)
-		
+				
 		model(x) = vcat(x,x)
 		for i in 1:length(channels)-1
 			model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
@@ -219,7 +228,11 @@ begin
 		model = Chain(
 			Parallel((a,b)->(a,b); 
 				α=Conv((3,3), img_channels => channels[end], relu, pad=1),
-				β=x->x
+				# β=x->x
+				β=timestep->Chain(
+					SinusoidalPositionEmbeddings(time_dim, timestep), 
+					Dense(time_dim=>time_dim, relu)
+				)
 			),
 			model,
 			Conv((3,3), channels[end] => out_dim)
@@ -232,7 +245,6 @@ begin
 			out_dim::Int, 
 			downs::Vector,
 			ups::Vector,
-			time_emb, 
 			model)
 	end
 
@@ -1806,6 +1818,7 @@ version = "17.4.0+0"
 # ╠═b52f1209-290f-4f37-9400-06a3df353218
 # ╠═eb6f88b7-2968-4fa1-8cdf-657f231e2b7c
 # ╠═64acadbc-9037-4510-af6a-d6c990d66d08
+# ╠═bae6e88e-c671-45ac-9b0b-6809e9cdd019
 # ╠═1808f144-e429-4164-900f-4a36bc647de7
 # ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # ╠═97be106e-09a1-4219-8651-3cdc74de5562
