@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
-using Images, MLDatasets, Flux, Distributions, PlutoUI; md"Imports here..."
+using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging; md"Imports here..."
 
 # ╔═╡ daeda629-187d-473d-8b95-09cdcddaabea
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
@@ -24,7 +24,10 @@ ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 MNIST_train, CIFAR10_train = MNIST(:train), CIFAR10(:train)
 
 # ╔═╡ 13b38576-a56b-4f8f-8b88-cd25d6f78294
-train = MNIST_train
+begin
+	train = MNIST_train
+	test = MNIST(UInt8, :test)
+end
 
 # ╔═╡ f5b33159-717c-41c6-820a-f00a731ba97d
 dims = size(train[1][1])
@@ -73,7 +76,7 @@ md"""
 
 # ╔═╡ cbc152b5-9261-475d-9059-0c5d143fc093
 md"""
-# Actual Functions Below
+# Forward Mode
 """
 
 # ╔═╡ a1871e9c-24c1-4430-a9c1-3464e92940d0
@@ -139,6 +142,11 @@ begin
 	Gray.(img_p')
 	# reshape([RGB.(img_p[i,j,:]) for i in 1:32 for j in 1:32], (32,32))
 end
+
+# ╔═╡ 202e79b9-1771-4513-96f5-6b27c52643ea
+md"""
+# Reverse Mode
+"""
 
 # ╔═╡ 64acadbc-9037-4510-af6a-d6c990d66d08
 """
@@ -254,7 +262,62 @@ begin
 end
 
 # ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
-my_model = UNet([1024,512,256,128,64], 3, 10, 3).model
+my_model = UNet([64], 1, 10, 3).model
+
+# ╔═╡ 474b4f64-6902-4a42-9a11-c8b4b19c96f2
+
+
+# ╔═╡ 792ec77b-4e23-48f9-bb41-4e72cd0f66b2
+md"""
+# Training
+"""
+
+# ╔═╡ a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
+"""
+Dataset D: [((forward(x_i, t), t)), x_i]
+"""
+function get_data(data, model)
+	dims = ndims(data)
+	colons  = repeat([:], dims-1)
+	Ŷ = []
+	Y = []
+	@progress for i in 1:size(data, dims)
+		t = rand(1:5000)
+		d = data[colons...,i]
+		pred = model((forward_diffusion(d, t), t))
+		Y = append!(Y, d)
+		Ŷ = append!(Ŷ, pred)
+	end
+	return Ŷ, Y
+end
+
+# ╔═╡ a7a0ae7b-37c3-493d-89bb-899c9df79b25
+begin
+	data = [Flux.unsqueeze(Float32.(img), 3) for img in train[:][1]]
+	colons = repeat([:], ndims(data)-1)
+	test_img = forward_diffusion(data[colons...,1], rand(1:5000))
+	my_model[1][1](img)
+end
+
+# ╔═╡ 82b91384-fcc7-41bd-91ec-4e7d33a0b869
+begin
+	processed_train = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in train]
+	processed_test = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in test]
+end
+
+# ╔═╡ 21b59186-0615-4bd4-a5dd-6881ea448c57
+@show train[:][1]
+
+# ╔═╡ 78a2a621-0faf-4322-8d2b-e418c3a335cb
+begin
+	for epoch in 1:1
+		Ŷ_tr, Y_tr = get_data(train[:][1], my_model) # total 60k
+		Ŷ_te, Y_te = get_data(test[:][1], my_model) # total 10k
+		evalcb() = @show(mse(Ŷ_te, Y_te))
+		throttled_cb = Flux.throttle(evalcb, 30)
+		Flux.train!(Flux.mse, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+	end
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -264,6 +327,7 @@ Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
 
 [compat]
 Distributions = "~0.25.75"
@@ -271,6 +335,7 @@ Flux = "~0.13.6"
 Images = "~0.25.2"
 MLDatasets = "~0.7.5"
 PlutoUI = "~0.7.43"
+ProgressLogging = "~0.1.4"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -279,7 +344,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "ca5f69722feeec387140bf63c1a98de799561c53"
+project_hash = "1933ec6c369ccb568007fd13297f91f384d8624a"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1817,11 +1882,19 @@ version = "17.4.0+0"
 # ╠═52782757-cce4-4e6d-b67f-2a99137bbd82
 # ╠═b52f1209-290f-4f37-9400-06a3df353218
 # ╠═eb6f88b7-2968-4fa1-8cdf-657f231e2b7c
+# ╟─202e79b9-1771-4513-96f5-6b27c52643ea
 # ╠═64acadbc-9037-4510-af6a-d6c990d66d08
 # ╠═bae6e88e-c671-45ac-9b0b-6809e9cdd019
 # ╠═1808f144-e429-4164-900f-4a36bc647de7
 # ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # ╠═97be106e-09a1-4219-8651-3cdc74de5562
 # ╠═8768f291-c02a-4967-b6d3-d9e140502dbd
+# ╠═474b4f64-6902-4a42-9a11-c8b4b19c96f2
+# ╟─792ec77b-4e23-48f9-bb41-4e72cd0f66b2
+# ╠═a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
+# ╠═a7a0ae7b-37c3-493d-89bb-899c9df79b25
+# ╠═82b91384-fcc7-41bd-91ec-4e7d33a0b869
+# ╠═21b59186-0615-4bd4-a5dd-6881ea448c57
+# ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
