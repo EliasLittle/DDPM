@@ -27,6 +27,9 @@ MNIST_train, CIFAR10_train = MNIST(:train), CIFAR10(:train)
 begin
 	train = MNIST_train
 	test = MNIST(UInt8, :test)
+
+	train = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in train]
+	test = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in test]
 end
 
 # ╔═╡ f5b33159-717c-41c6-820a-f00a731ba97d
@@ -127,7 +130,9 @@ function forward_diffusion(x₀, t, α=0.1)
 	# Image + Noise
 	scaled_noise = @. √(1-ᾱₜ)*ε
 	scaled_img = @. √(ᾱₜ) * x₀
+	# @info "scaled_img size: $(size(x₀))"
 	xₜ = scaled_img + scaled_noise
+	# @info "xₜ size: $(size(x₀))"
 	return xₜ
 end
 
@@ -149,23 +154,46 @@ md"""
 """
 
 # ╔═╡ 64acadbc-9037-4510-af6a-d6c990d66d08
-"""
-Custom layer producing time embeddings
-"""
-function SinusoidalPositionEmbeddings(dim, timestep)
-	half = dim//2
-	embeddings = log(10000) / (half - 1)
-	embeddings = exp.([i for i in 0:half-1] .* -embeddings)
-	embeddings = timestep .* embeddings
-	embeddings = vcat([sin(e) for e in embeddings], [cos(e) for e in embeddings])
-	return embeddings
+begin
+	"""
+	Custom layer producing time embeddings
+	"""
+	struct SinEmbedding
+		dim::Int
+		posFactor::Vector
+		# embeddings::Matrix
+		function SinEmbedding(dim::Int) 
+			half = (dim//2) - 1
+			logdim = -log(10000) / half
+			posFactor = exp.([0:half...] .* logdim)
+			# or [exp(-em*i) for i in 0:half-1]
+
+			# embeddings = Array{Float64}(undef, 2,length(posFactor))
+			# new(dim, posFactor, embeddings)
+			new(dim, posFactor)
+		end
+	end
+	
+	function (E::SinEmbedding)(timestep)
+		em = timestep .* E.posFactor
+		em = [sin.(em); cos.(em)]
+		return em
+	end
+	# function SinusoidalPositionEmbeddings(dim, timestep)
+	# 	half = dim//2
+	# 	embeddings = log(10000) / (half - 1)
+	# 	embeddings = exp.([i for i in 0:half-1] .* -embeddings)
+	# 	embeddings = timestep .* embeddings
+	# 	embeddings = vcat([sin(e) for e in embeddings], [cos(e) for e in embeddings])
+	# 	return embeddings
+	# end
 end
 
 # ╔═╡ bae6e88e-c671-45ac-9b0b-6809e9cdd019
 begin
 	dim = 8
 	time = [1 2 3]
-	emb = SinusoidalPositionEmbeddings(dim, time)
+	emb = SinEmbedding(dim)(time)
 end
 
 # ╔═╡ 1808f144-e429-4164-900f-4a36bc647de7
@@ -180,8 +208,9 @@ function BlockChain(in_chn, out_chn, time_dim; up=false)
 		BatchNorm(out_chn)
 	)
 	time_ops = Dense(time_dim=>out_chn, relu)
+	combine(a,b) = a .+ reshape(b, (1,1,size(b)...,1))
 	return Chain(
-		Parallel(+; α=x_ops, t=time_ops),
+		Parallel(combine; α=x_ops, t=time_ops),
 		Conv((3,3), out_chn=>out_chn, relu, pad=1),
 		BatchNorm(out_chn),
 		up ? 
@@ -212,6 +241,10 @@ end
 
 # ╔═╡ 97be106e-09a1-4219-8651-3cdc74de5562
 begin
+	"""
+	channels is ordered largest to smallest
+	
+	"""
 	struct UNet
 		channels::Vector{Int}
 		img_channels::Int
@@ -222,27 +255,41 @@ begin
 		model::Any
 	end
 
-	function UNet(channels, img_channels, time_dim, out_dim)
-		
-		downs = [BlockChain(channels[i], channels[i+1], time_dim) for i in 		1:length(channels)-1]
-		
-		ups = [BlockChain(channels[i], channels[i+1], time_dim, up=true) for i in 		1:length(channels)-1]
-				
-		model(x) = vcat(x,x)
-		for i in 1:length(channels)-1
-			model = SkipConnection(Chain(downs[i], model, ups[i]),(mx, x) -> vcat(mx,x))
+	struct _UNet
+		model
+		function _UNet(downs, ups, channels)
+			model(x) = cat(x, x, dims=3)
+			for i in 1:length(channels)-1
+				model = SkipConnection(
+					Chain(downs[i], model, ups[i]),
+					(mx, x) -> vcat(mx,x)
+				)
+			end
+			print(typeof(model))
+			new(model)
 		end
+	end
+	function (U::_UNet)(x)
+		U.model(x)
+	end
+
+	function UNet(channels, img_channels, time_dim, out_dim)
+
+		print("channels: ", [(channels[i], channels[i+1]) for i in 1:length(channels)-1])
+		downs = [BlockChain(channels[i+1], channels[i], time_dim) for i in 		length(channels)-1:-1:1]
+		
+		ups = [BlockChain(channels[i], channels[i+1], time_dim, up=true) for i in 		1:length(channels)-1]		
 
 		model = Chain(
 			Parallel((a,b)->(a,b); 
-				α=Conv((3,3), img_channels => channels[end], relu, pad=1),
+				α=Conv((3,3), img_channels => channels[1], relu, pad=1),
 				# β=x->x
-				β=timestep->Chain(
-					SinusoidalPositionEmbeddings(time_dim, timestep), 
+				β=Chain(
+					SinEmbedding(time_dim), 
 					Dense(time_dim=>time_dim, relu)
 				)
 			),
-			model,
+			_UNet(downs, ups, channels),
 			Conv((3,3), channels[end] => out_dim)
 		)
 
@@ -262,10 +309,7 @@ begin
 end
 
 # ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
-my_model = UNet([64], 1, 10, 3).model
-
-# ╔═╡ 474b4f64-6902-4a42-9a11-c8b4b19c96f2
-
+my_model = UNet([128, 64], 1, 10, 3).model
 
 # ╔═╡ 792ec77b-4e23-48f9-bb41-4e72cd0f66b2
 md"""
@@ -274,50 +318,63 @@ md"""
 
 # ╔═╡ a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
 """
-Dataset D: [((forward(x_i, t), t)), x_i]
+Dataset D: `[((forward(x_i, t), t)), x_i]`
 """
 function get_data(data, model)
-	dims = ndims(data)
-	colons  = repeat([:], dims-1)
+	n = length(data)
+	# colons  = repeat([:], dims-1)
 	Ŷ = []
 	Y = []
-	@progress for i in 1:size(data, dims)
+	@progress for i in 1:n
 		t = rand(1:5000)
-		d = data[colons...,i]
-		pred = model((forward_diffusion(d, t), t))
+		pred = model((forward_diffusion(data[i], t), t))
 		Y = append!(Y, d)
 		Ŷ = append!(Ŷ, pred)
 	end
 	return Ŷ, Y
 end
 
-# ╔═╡ a7a0ae7b-37c3-493d-89bb-899c9df79b25
-begin
-	data = [Flux.unsqueeze(Float32.(img), 3) for img in train[:][1]]
-	colons = repeat([:], ndims(data)-1)
-	test_img = forward_diffusion(data[colons...,1], rand(1:5000))
-	my_model[1][1](img)
-end
-
-# ╔═╡ 82b91384-fcc7-41bd-91ec-4e7d33a0b869
-begin
-	processed_train = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in train]
-	processed_test = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in test]
-end
-
 # ╔═╡ 21b59186-0615-4bd4-a5dd-6881ea448c57
-@show train[:][1]
+md"""
+Train the model: 
+$(@bind train_model CheckBox())
+"""
 
 # ╔═╡ 78a2a621-0faf-4322-8d2b-e418c3a335cb
 begin
-	for epoch in 1:1
-		Ŷ_tr, Y_tr = get_data(train[:][1], my_model) # total 60k
-		Ŷ_te, Y_te = get_data(test[:][1], my_model) # total 10k
-		evalcb() = @show(mse(Ŷ_te, Y_te))
-		throttled_cb = Flux.throttle(evalcb, 30)
-		Flux.train!(Flux.mse, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
-	end
+  if train_model
+    for epoch in 1:1
+      Ŷ_tr, Y_tr = get_data(train, my_model) # total 60k
+      Ŷ_te, Y_te = get_data(test, my_model) # total 10k
+      evalcb() = @show(mse(Ŷ_te, Y_te))
+      throttled_cb = Flux.throttle(evalcb, 30)
+      Flux.train!(Flux.mse, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+    end
+  end
 end
+
+# ╔═╡ 6080c411-6b5f-4368-8461-69886cb0d00c
+begin
+	tl = 1 #rand(1:5000)
+	my_img = forward_diffusion(train[1], tl)
+	h1 = (my_img, tl) |> my_model[1]
+	# h2 = h1 |> my_model[2].model.layers[1]
+	# h2 = h1 |> my_model[2] 
+	# h2 |> typeof
+	# size(h2[1]), size(h2[2])
+	# h3 = h2 |> my_model[3]
+end
+
+# ╔═╡ ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
+# (my_img, tl) |> my_model[1] |> typeof
+# h1 |> my_model[2].model.layers[1]
+h1[1] |> my_model[2].model.layers[1][1][:α] |> size |> println; h1[2] |> my_model[2].model.layers[1][1][:t] |> x->reshape(x, (1,1,size(x)...,1)) |> size |> println
+
+# ╔═╡ 7b04e65e-8d07-43a0-bf67-d41d632875d5
+h1[1] |> size #my_model[2].model.layers[1]
+
+# ╔═╡ dd360c3d-df1b-4239-8ed1-01c7f6c03ea6
+h1 |> my_model[2].model.layers[1]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1889,12 +1946,13 @@ version = "17.4.0+0"
 # ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # ╠═97be106e-09a1-4219-8651-3cdc74de5562
 # ╠═8768f291-c02a-4967-b6d3-d9e140502dbd
-# ╠═474b4f64-6902-4a42-9a11-c8b4b19c96f2
 # ╟─792ec77b-4e23-48f9-bb41-4e72cd0f66b2
 # ╠═a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
-# ╠═a7a0ae7b-37c3-493d-89bb-899c9df79b25
-# ╠═82b91384-fcc7-41bd-91ec-4e7d33a0b869
-# ╠═21b59186-0615-4bd4-a5dd-6881ea448c57
+# ╟─21b59186-0615-4bd4-a5dd-6881ea448c57
 # ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
+# ╠═ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
+# ╠═7b04e65e-8d07-43a0-bf67-d41d632875d5
+# ╠═dd360c3d-df1b-4239-8ed1-01c7f6c03ea6
+# ╠═6080c411-6b5f-4368-8461-69886cb0d00c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
