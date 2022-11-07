@@ -197,26 +197,55 @@ begin
 end
 
 # ╔═╡ 1808f144-e429-4164-900f-4a36bc647de7
-"""
-A block that returns a chain
-"""
-function BlockChain(in_chn, out_chn, time_dim; up=false)
-	if up in_chn *= 2 end
-	# up && in_chn *= 2
-	x_ops = Chain(
-		Conv((3,3), in_chn => out_chn, relu, pad=1),
-		BatchNorm(out_chn)
-	)
-	time_ops = Dense(time_dim=>out_chn, relu)
-	combine(a,b) = a .+ reshape(b, (1,1,size(b)...,1))
-	return Chain(
-		Parallel(combine; α=x_ops, t=time_ops),
-		Conv((3,3), out_chn=>out_chn, relu, pad=1),
-		BatchNorm(out_chn),
-		up ? 
-			ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) :
-			Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
-	)
+begin
+	"""
+	A block that returns a chain
+	"""
+	struct BlockChain
+		up
+		x_ops
+		t_ops
+		model
+		function BlockChain(in_chn, out_chn, time_dim; up=false)
+			if up in_chn *= 2 end
+			x_ops = Chain(
+				Conv((3,3), in_chn => out_chn, relu, pad=1),
+				BatchNorm(out_chn)
+			)
+			t_ops = Dense(time_dim=>out_chn, relu)
+			combine(a,b) = a .+ reshape(b, (1,1,size(b)...,1))
+			model = Chain(
+				Parallel(combine; α=x_ops, t=t_ops),
+				Conv((3,3), out_chn=>out_chn, relu, pad=1),
+				BatchNorm(out_chn),
+				up ? 
+					ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) :
+					Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
+			)
+			new(up, x_ops, t_ops, model)
+		end
+	end
+	function (B::BlockChain)(x,t)
+		return B.model(x,t), t
+	end
+	# function BlockChain(in_chn, out_chn, time_dim; up=false)
+	# 	if up in_chn *= 2 end
+	# 	# up && in_chn *= 2
+	# 	x_ops = Chain(
+	# 		Conv((3,3), in_chn => out_chn, relu, pad=1),
+	# 		BatchNorm(out_chn)
+	# 	)
+	# 	time_ops = Dense(time_dim=>out_chn, relu)
+	# 	combine(a,b) = a .+ reshape(b, (1,1,size(b)...,1))
+	# 	return Chain(
+	# 		Parallel(combine; α=x_ops, t=time_ops),
+	# 		Conv((3,3), out_chn=>out_chn, relu, pad=1),
+	# 		BatchNorm(out_chn),
+	# 		up ? 
+	# 			ConvTranspose((4,4), out_chn=>out_chn, stride=2, pad=1) :
+	# 			Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
+	# 	)
+	# end
 end
 
 # ╔═╡ 2f83a42e-8454-4e96-af17-8a7dba19b4cd
@@ -282,7 +311,7 @@ begin
 
 		model = Chain(
 			Parallel((a,b)->(a,b); 
-				α=Conv((3,3), img_channels => channels[1], relu, pad=1),
+				α=Conv((3,3), img_channels => channels[end], relu, pad=1),
 				# β=x->x
 				β=Chain(
 					SinEmbedding(time_dim), 
@@ -303,8 +332,9 @@ begin
 			model)
 	end
 
-	function (U::UNet)(x, t)
-		return U.model(x, t)
+	function (U::UNet)(xt::NTuple{2})
+		x, t = xt
+		return U.model(x, t), t
 	end
 end
 
@@ -353,6 +383,9 @@ begin
   end
 end
 
+# ╔═╡ 7b04e65e-8d07-43a0-bf67-d41d632875d5
+my_model[2].model.layers[1].model
+
 # ╔═╡ 6080c411-6b5f-4368-8461-69886cb0d00c
 begin
 	tl = 1 #rand(1:5000)
@@ -366,15 +399,10 @@ begin
 end
 
 # ╔═╡ ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
-# (my_img, tl) |> my_model[1] |> typeof
-# h1 |> my_model[2].model.layers[1]
-h1[1] |> my_model[2].model.layers[1][1][:α] |> size |> println; h1[2] |> my_model[2].model.layers[1][1][:t] |> x->reshape(x, (1,1,size(x)...,1)) |> size |> println
-
-# ╔═╡ 7b04e65e-8d07-43a0-bf67-d41d632875d5
-h1[1] |> size #my_model[2].model.layers[1]
-
-# ╔═╡ dd360c3d-df1b-4239-8ed1-01c7f6c03ea6
-h1 |> my_model[2].model.layers[1]
+# my_model[1]
+my_model[2].model.layers[1](h1)
+# h1 |> my_model[2].model.layers[1].model
+# h1 |> my_model[2].model.layers[1:2] |> size #my_model[2].model.layers[3].model[1][:t]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1952,7 +1980,6 @@ version = "17.4.0+0"
 # ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
 # ╠═ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
 # ╠═7b04e65e-8d07-43a0-bf67-d41d632875d5
-# ╠═dd360c3d-df1b-4239-8ed1-01c7f6c03ea6
 # ╠═6080c411-6b5f-4368-8461-69886cb0d00c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
