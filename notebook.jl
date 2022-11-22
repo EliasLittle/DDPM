@@ -17,6 +17,9 @@ end
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
 using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging; md"Imports here..."
 
+# ╔═╡ 2f5682d7-55e9-4e19-bb74-05cad1f3bc41
+using BSON: @save
+
 # ╔═╡ daeda629-187d-473d-8b95-09cdcddaabea
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
@@ -225,9 +228,12 @@ begin
 			new(up, x_ops, t_ops, model)
 		end
 	end
-	function (B::BlockChain)(x,t)
-		return B.model(x,t), t
+	function (B::BlockChain)(t::Tuple)
+		return B.model(t), t[2]
 	end
+end
+
+# ╔═╡ c372a5a6-4a9b-4cdb-bdb1-5f5218224b14
 	# function BlockChain(in_chn, out_chn, time_dim; up=false)
 	# 	if up in_chn *= 2 end
 	# 	# up && in_chn *= 2
@@ -246,7 +252,6 @@ begin
 	# 			Conv((4,4), out_chn=>out_chn, stride=2, pad=1)
 	# 	)
 	# end
-end
 
 # ╔═╡ 2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # """
@@ -287,11 +292,11 @@ begin
 	struct _UNet
 		model
 		function _UNet(downs, ups, channels)
-			model(x) = cat(x, x, dims=3)
+			model(t::Tuple) = (cat(t[1], t[1], dims=3), t[2])
 			for i in 1:length(channels)-1
 				model = SkipConnection(
 					Chain(downs[i], model, ups[i]),
-					(mx, x) -> vcat(mx,x)
+					(mx, x) -> (cat(mx[1],x[1], dims=3), x[2])
 				)
 			end
 			print(typeof(model))
@@ -319,7 +324,7 @@ begin
 				)
 			),
 			_UNet(downs, ups, channels),
-			Conv((3,3), channels[end] => out_dim)
+			t -> Conv((3,3), 2 * channels[end] => out_dim, pad=1)(t[1])
 		)
 
 		return UNet(
@@ -355,11 +360,11 @@ function get_data(data, model)
 	# colons  = repeat([:], dims-1)
 	Ŷ = []
 	Y = []
-	@progress for i in 1:n
+	@progress for i in 1:(n÷500)
 		t = rand(1:5000)
-		pred = model((forward_diffusion(data[i], t), t))
-		Y = append!(Y, d)
-		Ŷ = append!(Ŷ, pred)
+		pred = model((forward_diffusion(float32.(data[i]), t), t))[:,:,1,:]
+		Ŷ = append!(Ŷ, vec(pred))
+		Y = append!(Y, vec(float32.(data[i])))
 	end
 	return Ŷ, Y
 end
@@ -373,40 +378,36 @@ $(@bind train_model CheckBox())
 # ╔═╡ 78a2a621-0faf-4322-8d2b-e418c3a335cb
 begin
   if train_model
-    for epoch in 1:1
+    for epoch in 1:10
       Ŷ_tr, Y_tr = get_data(train, my_model) # total 60k
+	  # @show typeof(data_tr)
       Ŷ_te, Y_te = get_data(test, my_model) # total 10k
-      evalcb() = @show(mse(Ŷ_te, Y_te))
-      throttled_cb = Flux.throttle(evalcb, 30)
-      Flux.train!(Flux.mse, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+      evalcb() = @show(Flux.mse(Ŷ_te, Y_te))
+      throttled_cb = Flux.throttle(evalcb, 2)
+	  loss_fn = x -> Flux.mse(x[1], x[2])
+      Flux.train!(loss_fn, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
     end
   end
 end
 
-# ╔═╡ 7b04e65e-8d07-43a0-bf67-d41d632875d5
-my_model[2].model.layers[1].model
+# ╔═╡ aea0b048-2042-4b9f-be29-4830f429d256
+@save "my_model.bson" my_model
 
-# ╔═╡ 6080c411-6b5f-4368-8461-69886cb0d00c
+# ╔═╡ a81b8640-8d22-4968-9976-a85090e12217
 begin
+	# debugging
 	tl = 1 #rand(1:5000)
 	my_img = forward_diffusion(train[1], tl)
-	h1 = (my_img, tl) |> my_model[1]
-	# h2 = h1 |> my_model[2].model.layers[1]
-	# h2 = h1 |> my_model[2] 
-	# h2 |> typeof
-	# size(h2[1]), size(h2[2])
-	# h3 = h2 |> my_model[3]
+	input = (my_img, tl)
+	out = my_model(input)
+	size(out)
+	# [Gray.(out[1][:,:,i,1]) for i in 1:3]
 end
-
-# ╔═╡ ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
-# my_model[1]
-my_model[2].model.layers[1](h1)
-# h1 |> my_model[2].model.layers[1].model
-# h1 |> my_model[2].model.layers[1:2] |> size #my_model[2].model.layers[3].model[1][:t]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
@@ -415,6 +416,7 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
 
 [compat]
+BSON = "~0.3.6"
 Distributions = "~0.25.75"
 Flux = "~0.13.6"
 Images = "~0.25.2"
@@ -429,7 +431,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "1933ec6c369ccb568007fd13297f91f384d8624a"
+project_hash = "f78b86ae07f5b25eaf80544b6904311e5d76154b"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -502,6 +504,11 @@ deps = ["LinearAlgebra", "Printf", "Random", "Test"]
 git-tree-sha1 = "a598ecb0d717092b5539dbbe890c98bac842b072"
 uuid = "ab4f0b2a-ad5b-11e8-123f-65d77653426b"
 version = "0.2.0"
+
+[[deps.BSON]]
+git-tree-sha1 = "86e9781ac28f4e80e9b98f7f96eae21891332ac2"
+uuid = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
+version = "0.3.6"
 
 [[deps.BangBang]]
 deps = ["Compat", "ConstructionBase", "Future", "InitialValues", "LinearAlgebra", "Requires", "Setfield", "Tables", "ZygoteRules"]
@@ -1971,15 +1978,16 @@ version = "17.4.0+0"
 # ╠═64acadbc-9037-4510-af6a-d6c990d66d08
 # ╠═bae6e88e-c671-45ac-9b0b-6809e9cdd019
 # ╠═1808f144-e429-4164-900f-4a36bc647de7
-# ╠═2f83a42e-8454-4e96-af17-8a7dba19b4cd
+# ╟─c372a5a6-4a9b-4cdb-bdb1-5f5218224b14
+# ╟─2f83a42e-8454-4e96-af17-8a7dba19b4cd
 # ╠═97be106e-09a1-4219-8651-3cdc74de5562
 # ╠═8768f291-c02a-4967-b6d3-d9e140502dbd
 # ╟─792ec77b-4e23-48f9-bb41-4e72cd0f66b2
 # ╠═a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
 # ╟─21b59186-0615-4bd4-a5dd-6881ea448c57
 # ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
-# ╠═ac4b9cd0-a6ed-404a-aafd-133c22d3e04c
-# ╠═7b04e65e-8d07-43a0-bf67-d41d632875d5
-# ╠═6080c411-6b5f-4368-8461-69886cb0d00c
+# ╠═2f5682d7-55e9-4e19-bb74-05cad1f3bc41
+# ╠═aea0b048-2042-4b9f-be29-4830f429d256
+# ╠═a81b8640-8d22-4968-9976-a85090e12217
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
