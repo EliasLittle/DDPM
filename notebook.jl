@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
-using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging; md"Imports here..."
+using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging, Metal; md"Imports here..."
 
 # ╔═╡ 2f5682d7-55e9-4e19-bb74-05cad1f3bc41
 using BSON: @save
@@ -28,8 +28,8 @@ MNIST_train, CIFAR10_train = MNIST(:train), CIFAR10(:train)
 
 # ╔═╡ 13b38576-a56b-4f8f-8b88-cd25d6f78294
 begin
-	train = MNIST_train
-	test = MNIST(UInt8, :test)
+	train = CIFAR10_train #MNIST_train
+	test = CIFAR10(UInt8, :test)
 
 	train = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in train]
 	test = [img[1] |> x-> reshape(x, (size(x)...,1,1)) for img in test]
@@ -44,9 +44,12 @@ dims = size(train[1][1])
 # ╔═╡ fc761a9e-e5a6-455c-a82a-e1a5884fcfd7
 size(train[k][1])
 
+# ╔═╡ f2789b3b-09ae-44c9-9585-3a88de5833c4
+colorimg(A) = colorview(RGB, permutedims(A, (3,2,1)))
+
 # ╔═╡ 6b76210f-47b4-4bdc-92d2-7a442a12cf2d
 # I = reshape([RGB(train[k][1][i,j,:]...) for i in 1:32 for j in 1:32], (32,32))
-I = Gray.(train[k][1])'
+I = colorimg(train[k][:,:,:])
 
 # ╔═╡ 39f166af-eb88-4a73-9333-64f376b34fe6
 sample(k=1) = [rand(Gray, dims) for _ in 1:k]
@@ -77,7 +80,7 @@ md"""
 ## Helper Functions
 """
 
-# ╔═╡ 0ab6f0cb-b39d-4b03-9471-0878ce69fc9a
+# ╔═╡ 8a8d0f54-0c36-47d5-a7a3-aafa6b524821
 
 
 # ╔═╡ cbc152b5-9261-475d-9059-0c5d143fc093
@@ -344,7 +347,7 @@ begin
 end
 
 # ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
-my_model = UNet([128, 64], 1, 10, 3).model
+my_model = UNet([256, 128, 64], 3, 10, 3).model
 
 # ╔═╡ 792ec77b-4e23-48f9-bb41-4e72cd0f66b2
 md"""
@@ -362,7 +365,8 @@ function get_data(data, model)
 	Y = []
 	@progress for i in 1:(n÷500)
 		t = rand(1:5000)
-		pred = model((forward_diffusion(float32.(data[i]), t), t))[:,:,1,:]
+		fwd = forward_diffusion(float32.(data[i]), t)[:,:,:,:]
+		pred = model((fwd, t))
 		Ŷ = append!(Ŷ, vec(pred))
 		Y = append!(Y, vec(float32.(data[i])))
 	end
@@ -377,17 +381,26 @@ $(@bind train_model CheckBox())
 
 # ╔═╡ 78a2a621-0faf-4322-8d2b-e418c3a335cb
 begin
-  if train_model
-    for epoch in 1:10
-      Ŷ_tr, Y_tr = get_data(train, my_model) # total 60k
-	  # @show typeof(data_tr)
-      Ŷ_te, Y_te = get_data(test, my_model) # total 10k
-      evalcb() = @show(Flux.mse(Ŷ_te, Y_te))
-      throttled_cb = Flux.throttle(evalcb, 2)
-	  loss_fn = x -> Flux.mse(x[1], x[2])
-      Flux.train!(loss_fn, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
-    end
-  end
+	if train_model
+		best_loss = Inf
+		for epoch in 1:10
+			println("Epoch $epoch")
+			Ŷ_tr, Y_tr = get_data(train, my_model) # total 60k
+			# @show typeof(data_tr)
+			
+			Ŷ_te, Y_te = get_data(test, my_model) # total 10k
+			function evalcb()
+				if Flux.mse(Ŷ_te, Y_te) < best_loss
+					@info "Updating model..."
+					@save "my_model.bson" my_model
+				end
+			end
+			throttled_cb = Flux.throttle(evalcb, 2)
+			
+			loss_fn = x -> Flux.mse(x[1], x[2])
+			Flux.train!(loss_fn, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+		end
+	end
 end
 
 # ╔═╡ aea0b048-2042-4b9f-be29-4830f429d256
@@ -397,10 +410,10 @@ end
 begin
 	# debugging
 	tl = 1 #rand(1:5000)
-	my_img = forward_diffusion(train[1], tl)
+	my_img = forward_diffusion(train[1], tl)[:,:,:,:]
 	input = (my_img, tl)
 	out = my_model(input)
-	size(out)
+	Gray.(out[:,:,1,1])'
 	# [Gray.(out[1][:,:,i,1]) for i in 1:3]
 end
 
@@ -412,6 +425,7 @@ Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
+Metal = "dde4c033-4e86-420c-a63e-0dd931031962"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
 
@@ -421,6 +435,7 @@ Distributions = "~0.25.75"
 Flux = "~0.13.6"
 Images = "~0.25.2"
 MLDatasets = "~0.7.5"
+Metal = "~0.1.2"
 PlutoUI = "~0.7.43"
 ProgressLogging = "~0.1.4"
 """
@@ -431,7 +446,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "f78b86ae07f5b25eaf80544b6904311e5d76154b"
+project_hash = "ca7fcff57ab81b61b49d2cfd611dfa91f24ddff9"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1330,6 +1345,18 @@ git-tree-sha1 = "2af69ff3c024d13bde52b34a2a7d6887d4e7b438"
 uuid = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 version = "0.7.1"
 
+[[deps.Metal]]
+deps = ["Adapt", "CEnum", "ExprTools", "GPUArrays", "GPUCompiler", "LLVM", "Libdl", "LinearAlgebra", "Metal_LLVM_Tools_jll", "Random", "Reexport", "cmt_jll"]
+git-tree-sha1 = "2b9dc3f8a248eb4b1e05cdbfc5af4fbdbfafb69b"
+uuid = "dde4c033-4e86-420c-a63e-0dd931031962"
+version = "0.1.2"
+
+[[deps.Metal_LLVM_Tools_jll]]
+deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg", "TOML", "Zlib_jll"]
+git-tree-sha1 = "aca98c1b3884c9597962801c2491553798cc2175"
+uuid = "0418c028-ff8c-56b8-a53e-0f9676ed36fc"
+version = "0.3.0+2"
+
 [[deps.MicroCollections]]
 deps = ["BangBang", "InitialValues", "Setfield"]
 git-tree-sha1 = "6bb7786e4f24d44b4e29df03c69add1b63d88f01"
@@ -1925,6 +1952,12 @@ git-tree-sha1 = "8c1a8e4dfacb1fd631745552c8db35d0deb09ea0"
 uuid = "700de1a5-db45-46bc-99cf-38207098b444"
 version = "0.2.2"
 
+[[deps.cmt_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "b9b9836ba3d6871ff9819502144a59a2cdc6a7f2"
+uuid = "65323cdd-17ec-5719-9643-72016a7f97e3"
+version = "0.1.0+0"
+
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
@@ -1956,11 +1989,12 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╠═4bbf453c-4779-11ed-0dbb-cf0727660437
 # ╠═daeda629-187d-473d-8b95-09cdcddaabea
-# ╟─4152af03-3443-400b-b6b8-875593be439d
+# ╠═4152af03-3443-400b-b6b8-875593be439d
 # ╠═13b38576-a56b-4f8f-8b88-cd25d6f78294
 # ╠═f5b33159-717c-41c6-820a-f00a731ba97d
 # ╠═4e0715e7-950b-4bef-b4fc-9a54e8b4ded4
 # ╠═fc761a9e-e5a6-455c-a82a-e1a5884fcfd7
+# ╠═f2789b3b-09ae-44c9-9585-3a88de5833c4
 # ╠═6b76210f-47b4-4bdc-92d2-7a442a12cf2d
 # ╠═39f166af-eb88-4a73-9333-64f376b34fe6
 # ╠═b79423db-073b-4e70-ad06-59a179d4e104
@@ -1968,7 +2002,7 @@ version = "17.4.0+0"
 # ╠═c45b2869-fc2f-46f5-a42c-5adeda175574
 # ╠═2aba296c-19a6-4b85-a2fc-461e6a88d5bf
 # ╟─c4c8d7d8-0300-400d-929a-d4956bd76028
-# ╠═0ab6f0cb-b39d-4b03-9471-0878ce69fc9a
+# ╠═8a8d0f54-0c36-47d5-a7a3-aafa6b524821
 # ╟─cbc152b5-9261-475d-9059-0c5d143fc093
 # ╠═a1871e9c-24c1-4430-a9c1-3464e92940d0
 # ╠═52782757-cce4-4e6d-b67f-2a99137bbd82
@@ -1984,9 +2018,9 @@ version = "17.4.0+0"
 # ╠═8768f291-c02a-4967-b6d3-d9e140502dbd
 # ╟─792ec77b-4e23-48f9-bb41-4e72cd0f66b2
 # ╠═a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
+# ╠═2f5682d7-55e9-4e19-bb74-05cad1f3bc41
 # ╟─21b59186-0615-4bd4-a5dd-6881ea448c57
 # ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
-# ╠═2f5682d7-55e9-4e19-bb74-05cad1f3bc41
 # ╠═aea0b048-2042-4b9f-be29-4830f429d256
 # ╠═a81b8640-8d22-4968-9976-a85090e12217
 # ╟─00000000-0000-0000-0000-000000000001
