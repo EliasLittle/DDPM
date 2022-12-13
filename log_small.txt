@@ -1,0 +1,251 @@
+Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37372166
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 83.520386
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 83.520386f0
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36250842
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 131.8562
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37350917
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 118.956406
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37081236
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 152.22179
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37229174
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 104.26655
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37668374
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 93.08201
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36482713
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 116.01946
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37518921
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 92.155754
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37732884
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 108.583145
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.38049752
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 81.43752
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 81.43752f0
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.38585475
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 144.33453
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3801629
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 70.97056
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 70.97056f0
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36345163
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 85.56039
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37865275
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 117.82776
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37485018
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 120.115616
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36502632
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 135.47324
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37041715
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 77.517204
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37833625
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 75.521645
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3819361
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 63.04477
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 63.04477f0
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37365642
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 94.88887
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3677139
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 98.113716
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36926883
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 106.44842
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36228564
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 89.5208
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37465468
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 78.68077
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.370716
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 93.201355
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.377114
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 94.45434
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37654343
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 117.762695
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.38066542
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 59.900356
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 59.900356f0
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37130156
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 77.53885
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36560026
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 129.52156
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3807735
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 104.83763
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3777571
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 102.74288
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3706489
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 79.16089
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.38022506
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 99.500206
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36889607
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 103.35835
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37098014
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 76.623184
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3705054
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 85.69316
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3725744
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 75.29341
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3721314
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 94.68993
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37651008
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss: 
+│   loss = 92.68603
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.37880135
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:40
+┌ Info: Test Loss: 
+│   loss = 65.65506
+└ @ Main.var"workspace#31" C:\Projects\JuliaDev\DDPM\notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:41
