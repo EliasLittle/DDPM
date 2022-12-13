@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
-using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging, PyCall; md"Imports here..."
+using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging, Metalhead, Statistics, LinearAlgebra; md"Imports here..."
 
 # ╔═╡ 2f5682d7-55e9-4e19-bb74-05cad1f3bc41
 begin
@@ -461,42 +461,82 @@ end
 @bind i Slider(1:size(subset_tr)[1])
 
 # ╔═╡ a81b8640-8d22-4968-9976-a85090e12217
-begin
-	# debugging
-	tl = 5 #rand(1:5000)
-	my_img, my_noise = forward_diffusion(subset_tr[i], tl)
-	input = (my_img, tl)
-	out = my_model(input)
-	orig = colorimg(subset_tr[i][:,:,:,1])
-	diffuse = colorimg(my_img[:,:,:,1])
-	final = colorimg(retrieve_prediction(out, my_img, tl)[:,:,:,1])
-	random, random_noise = forward_diffusion(subset_tr[i], tl)
-	random_img = colorimg(random[:,:,:,1])
-	pred_loss = Flux.mse(out, my_noise)
-	random_loss = Flux.mse(random_noise, my_noise)
-	@show pred_loss, random_loss
-	mosaicview(orig, diffuse, final, random_img, nrow=4)
-end
+# begin
+# 	# debugging
+# 	tl = 5 #rand(1:5000)
+# 	my_img, my_noise = forward_diffusion(subset_tr[i], tl)
+# 	input = (my_img, tl)
+# 	out = my_model(input)
+# 	orig = subset_tr[i][:,:,:,1]
+# 	diffuse = colorimg(my_img[:,:,:,1])
+# 	final = retrieve_prediction(out, my_img, tl)[:,:,:,1]
+# 	random, random_noise = forward_diffusion(subset_tr[i], tl)
+# 	random_img = colorimg(random[:,:,:,1])
+# 	pred_loss = Flux.mse(out, my_noise)
+# 	random_loss = Flux.mse(random_noise, my_noise)
+# 	@show pred_loss, random_loss
+# 	mosaicview(colorimg(orig), diffuse, colorimg(final), random_img, nrow=4)
+# end
 
 # ╔═╡ 197100e6-7597-4a11-8a97-809fc56851db
 md"""
 # Evaluation
 """
 
-# ╔═╡ 878f82b2-cc36-4efd-ab2e-8faa7d21e2da
-py"""
-from tensorflow import keras
+# ╔═╡ 9f4c4329-283a-4d56-ab0d-2bad7299403a
+begin
+	resnet = ResNet(152; pretrain=true, nclasses=1000)
+	backbone = Metalhead.backbone(resnet)
+end;
 
-inception = keras.applications.InceptionV3(
-    include_top=False,
-    weights="imagenet",
-    input_tensor=None,
-    input_shape=None,
-    pooling=None,
-    classes=1000,
-    classifier_activation="softmax",
-)
+# ╔═╡ edb2912f-02cd-4949-a907-bd3e666154c6
+function get_activations(img, backbone)
+	return backbone(img[:,:,:,:,1])[1,1,:,1]
+end
+
+# ╔═╡ 28fea06a-b101-45e7-b8be-09a0e1a1b51c
 """
+calculates FID score for a collection of image activations, a1 and a2.
+
+a1 and a2 are each expected to be a collection of n x 2048 vectors, n = num images
+"""
+function fid(a1, a2)
+	μ1, σ1 = mean(a1), cov(a1)
+	μ2, σ2 = mean(a2), cov(a2)
+	# calculate sum squared difference between means
+	ssdiff = sum((μ1 .- μ2).^2)
+	# calculate sqrt of product between cov
+	covmean = sqrt.(Complex.(dot.(σ1, σ2)))
+	# check and correct imaginary numbers from sqrt
+	covmean = real.(covmean)
+	# calculate score
+	score = ssdiff .+ tr(σ1 .+ σ2 .- 2 .* covmean)
+	return score
+end
+
+# ╔═╡ e92cf528-93e1-415f-845b-ccb90726e364
+begin
+	reals = []
+	fakes = []
+	for p in 1:5000
+		tl = rand(1:5000)
+		my_img, my_noise = forward_diffusion(subset_tr[p], tl)
+		input = (my_img, tl)
+		out = my_model(input)
+		reals = vcat(reals, 
+			[get_activations(subset_tr[p][:,:,:,:,1], backbone)]
+		)
+		fakes = vcat(fakes, 
+			[get_activations(
+				retrieve_prediction(out, my_img, tl)[:,:,:,:,1],
+				backbone
+			)]
+		)
+	end
+end
+
+# ╔═╡ dfe7f52e-b1e8-4fb2-bbbd-10ca7568e47c
+fid(reals, fakes)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -505,20 +545,22 @@ BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
+Metalhead = "dbeba491-748d-5e0e-a39e-b530a07fa0cc"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 ProgressLogging = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 BSON = "~0.3.6"
 Distributions = "~0.25.79"
-Flux = "~0.13.9"
+Flux = "~0.13.4"
 Images = "~0.25.2"
-MLDatasets = "~0.7.6"
+MLDatasets = "~0.7.7"
+Metalhead = "~0.7.3"
 PlutoUI = "~0.7.49"
 ProgressLogging = "~0.1.4"
-PyCall = "~1.94.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -527,7 +569,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "a0c91afd02b82b7bed12463854f10503abbad006"
+project_hash = "cc3f5290e2218f27c9791cfbc79a38c6374dbada"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -567,6 +609,18 @@ deps = ["LinearAlgebra", "Random", "StaticArrays"]
 git-tree-sha1 = "62e51b39331de8911e4a7ff6f5aaf38a5f4cc0ae"
 uuid = "ec485272-7323-5ecc-a04f-4719b315124d"
 version = "0.2.0"
+
+[[deps.ArrayInterface]]
+deps = ["ArrayInterfaceCore", "Compat", "IfElse", "LinearAlgebra", "Static"]
+git-tree-sha1 = "6d0918cb9c0d3db7fe56bea2bc8638fc4014ac35"
+uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
+version = "6.0.24"
+
+[[deps.ArrayInterfaceCore]]
+deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse"]
+git-tree-sha1 = "c46fb7dd1d8ca1d213ba25848a5ec4e47a1a1b08"
+uuid = "30b0a656-2188-435a-8636-2ec0e6a096e2"
+version = "0.1.26"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -739,12 +793,6 @@ version = "0.1.1"
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
 uuid = "ed09eef8-17a6-5b46-8889-db040fac31e3"
 version = "0.3.2"
-
-[[deps.Conda]]
-deps = ["Downloads", "JSON", "VersionParsing"]
-git-tree-sha1 = "6e47d11ea2776bc5627421d59cdcc1296c058071"
-uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.7.0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -929,10 +977,10 @@ uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.4"
 
 [[deps.Flux]]
-deps = ["Adapt", "CUDA", "ChainRulesCore", "Functors", "LinearAlgebra", "MLUtils", "MacroTools", "NNlib", "NNlibCUDA", "OneHotArrays", "Optimisers", "ProgressLogging", "Random", "Reexport", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "Zygote"]
-git-tree-sha1 = "2b85cb85f5d71f05e41089a2446ac33b8e94ebed"
+deps = ["Adapt", "ArrayInterface", "CUDA", "ChainRulesCore", "Functors", "LinearAlgebra", "MLUtils", "MacroTools", "NNlib", "NNlibCUDA", "Optimisers", "ProgressLogging", "Random", "Reexport", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "Test", "Zygote"]
+git-tree-sha1 = "96dc065bf4a998e8adeebc0ff1302902b6e59362"
 uuid = "587475ba-b771-5e3f-ad9e-33799f191a9c"
-version = "0.13.9"
+version = "0.13.4"
 
 [[deps.FoldsThreads]]
 deps = ["Accessors", "FunctionWrappers", "InitialValues", "SplittablesBase", "Transducers"]
@@ -958,10 +1006,9 @@ uuid = "069b7b12-0de2-55c6-9aab-29f3d0a68a2e"
 version = "1.1.3"
 
 [[deps.Functors]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "993c2b4a9a54496b6d8e265db1244db418f37e01"
+git-tree-sha1 = "223fffa49ca0ff9ce4f875be001ffe173b2b7de4"
 uuid = "d9f16b24-f501-4c13-a1f2-28368ffc5196"
-version = "0.4.1"
+version = "0.2.8"
 
 [[deps.Future]]
 deps = ["Random"]
@@ -1061,6 +1108,11 @@ deps = ["InteractiveUtils", "MacroTools", "Test"]
 git-tree-sha1 = "2e99184fca5eb6f075944b04c22edec29beb4778"
 uuid = "7869d1d1-7146-5819-86e3-90919afe41df"
 version = "0.4.7"
+
+[[deps.IfElse]]
+git-tree-sha1 = "debdd00ffef04665ccbb3e150747a77560e8fad1"
+uuid = "615f187c-cbe4-4ef1-ba3b-2fcf58d6d173"
+version = "0.1.1"
 
 [[deps.ImageAxes]]
 deps = ["AxisArrays", "ImageBase", "ImageCore", "Reexport", "SimpleTraits"]
@@ -1396,9 +1448,9 @@ version = "2022.2.0+0"
 
 [[deps.MLDatasets]]
 deps = ["CSV", "Chemfiles", "DataDeps", "DataFrames", "DelimitedFiles", "FileIO", "FixedPointNumbers", "GZip", "Glob", "HDF5", "ImageShow", "JLD2", "JSON3", "LazyModules", "MAT", "MLUtils", "NPZ", "Pickle", "Printf", "Requires", "SparseArrays", "Tables"]
-git-tree-sha1 = "77345a68d55cf88c7df7cc5bcc2596717f93d6c5"
+git-tree-sha1 = "5c51a49d8cb7532dbd9ac06c16aa9d48b4de9b6f"
 uuid = "eb30cadb-4394-5ae3-aed4-317e484a6458"
-version = "0.7.6"
+version = "0.7.7"
 
 [[deps.MLStyle]]
 git-tree-sha1 = "060ef7956fef2dc06b0e63b294f7dbfbcbdc7ea2"
@@ -1406,10 +1458,10 @@ uuid = "d8e11817-5142-5d16-987a-aa16d5891078"
 version = "0.4.16"
 
 [[deps.MLUtils]]
-deps = ["ChainRulesCore", "DataAPI", "DelimitedFiles", "FLoops", "FoldsThreads", "NNlib", "Random", "ShowCases", "SimpleTraits", "Statistics", "StatsBase", "Tables", "Transducers"]
-git-tree-sha1 = "82c1104919d664ab1024663ad851701415300c5f"
+deps = ["ChainRulesCore", "DelimitedFiles", "FLoops", "FoldsThreads", "Random", "ShowCases", "Statistics", "StatsBase", "Transducers"]
+git-tree-sha1 = "824e9dfc7509cab1ec73ba77b55a916bb2905e26"
 uuid = "f1d291b0-491e-4a28-83b9-f70985020b54"
-version = "0.3.1"
+version = "0.2.11"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -1442,6 +1494,12 @@ deps = ["Graphs", "JLD2", "Random"]
 git-tree-sha1 = "2af69ff3c024d13bde52b34a2a7d6887d4e7b438"
 uuid = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 version = "0.7.1"
+
+[[deps.Metalhead]]
+deps = ["Artifacts", "BSON", "Flux", "Functors", "LazyArtifacts", "MLUtils", "NNlib", "Random", "Statistics"]
+git-tree-sha1 = "a8513152030f7210ccc0b871e03d60c9b13ed0b1"
+uuid = "dbeba491-748d-5e0e-a39e-b530a07fa0cc"
+version = "0.7.3"
 
 [[deps.MicroCollections]]
 deps = ["BangBang", "InitialValues", "Setfield"]
@@ -1520,12 +1578,6 @@ git-tree-sha1 = "f71d8950b724e9ff6110fc948dff5a329f901d64"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 version = "1.12.8"
 
-[[deps.OneHotArrays]]
-deps = ["Adapt", "ChainRulesCore", "Compat", "GPUArraysCore", "LinearAlgebra", "NNlib"]
-git-tree-sha1 = "97af68a840d83df94053f45e68b944e645a2262c"
-uuid = "0b1bfda6-eb8a-41d2-88d8-f5af5cad476f"
-version = "0.2.1"
-
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
@@ -1568,9 +1620,9 @@ version = "0.5.5+0"
 
 [[deps.Optimisers]]
 deps = ["ChainRulesCore", "Functors", "LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "e657acef119cc0de2a8c0762666d3b64727b053b"
+git-tree-sha1 = "1ef34738708e3f31994b52693286dabcb3d29f6b"
 uuid = "3bd65402-5787-11e9-1adc-39752487f4e2"
-version = "0.2.14"
+version = "0.2.9"
 
 [[deps.OrderedCollections]]
 git-tree-sha1 = "85f8e6578bf1f9ee0d11e7bb1b1456435479d47c"
@@ -1668,12 +1720,6 @@ deps = ["Distributed", "Printf"]
 git-tree-sha1 = "d7a7aef8f8f2d537104f170139553b14dfe39fe9"
 uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
 version = "1.7.2"
-
-[[deps.PyCall]]
-deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
-git-tree-sha1 = "53b8b07b721b77144a0fbbbc2675222ebf40a02d"
-uuid = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-version = "1.94.1"
 
 [[deps.QOI]]
 deps = ["ColorTypes", "FileIO", "FixedPointNumbers"]
@@ -1852,6 +1898,12 @@ git-tree-sha1 = "46e589465204cd0c08b4bd97385e4fa79a0c770c"
 uuid = "cae243ae-269e-4f55-b966-ac2d0dc13c15"
 version = "0.1.1"
 
+[[deps.Static]]
+deps = ["IfElse"]
+git-tree-sha1 = "c35b107b61e7f34fa3f124026f2a9be97dea9e1c"
+uuid = "aedffcd0-7271-4cad-89d0-dc628f76c6d3"
+version = "0.8.3"
+
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "StaticArraysCore", "Statistics"]
 git-tree-sha1 = "ffc098086f35909741f71ce21d03dadf0d2bfa76"
@@ -2007,11 +2059,6 @@ version = "1.0.2"
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
-[[deps.VersionParsing]]
-git-tree-sha1 = "58d6e80b4ee071f5efd07fda82cb9fbe17200868"
-uuid = "81def892-9a0e-5fdd-b105-ffc91e053289"
-version = "1.3.0"
-
 [[deps.WeakRefStrings]]
 deps = ["DataAPI", "InlineStrings", "Parsers"]
 git-tree-sha1 = "b1be2855ed9ed8eac54e5caff2afcdb442d52c23"
@@ -2127,6 +2174,10 @@ version = "17.4.0+0"
 # ╠═746c0d89-8590-449e-bd3c-a6bb9a9f013a
 # ╠═a81b8640-8d22-4968-9976-a85090e12217
 # ╟─197100e6-7597-4a11-8a97-809fc56851db
-# ╠═878f82b2-cc36-4efd-ab2e-8faa7d21e2da
+# ╠═9f4c4329-283a-4d56-ab0d-2bad7299403a
+# ╠═edb2912f-02cd-4949-a907-bd3e666154c6
+# ╠═28fea06a-b101-45e7-b8be-09a0e1a1b51c
+# ╠═e92cf528-93e1-415f-845b-ccb90726e364
+# ╠═dfe7f52e-b1e8-4fb2-bbbd-10ca7568e47c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
