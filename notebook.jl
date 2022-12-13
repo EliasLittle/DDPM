@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 4bbf453c-4779-11ed-0dbb-cf0727660437
-using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging, Metalhead, Statistics, LinearAlgebra; md"Imports here..."
+using Images, MLDatasets, Flux, Distributions, PlutoUI, ProgressLogging, Metalhead, Statistics, LinearAlgebra, Logging; md"Imports here..."
 
 # ╔═╡ 2f5682d7-55e9-4e19-bb74-05cad1f3bc41
 begin
@@ -366,6 +366,8 @@ begin
 		x, t = xt
 		return U.model(x, t), t
 	end
+
+	Flux.@functor UNet
 end
 
 # ╔═╡ 8768f291-c02a-4967-b6d3-d9e140502dbd
@@ -394,8 +396,8 @@ md"""
 
 # ╔═╡ 7d214d48-36f7-438a-b58c-f774c26b7946
 begin
-	subset_tr = train[1:5000]
-	subset_te = test[1:500]
+	subset_tr = train[1:6000]
+	subset_te = test[1:600]
 end;
 
 # ╔═╡ a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
@@ -422,6 +424,12 @@ function get_data(data, model)
 	return Ŷ, Y
 end
 
+# ╔═╡ 69d0ed78-b858-4017-a429-4fcd3e0ea105
+begin
+	io = open("log.txt", "w+")
+	logger = SimpleLogger(io)
+end
+
 # ╔═╡ 21b59186-0615-4bd4-a5dd-6881ea448c57
 md"""
 Train the model: 
@@ -433,12 +441,22 @@ begin
 	if train_model
 		best_loss = Inf
 		loss = best_loss
-		for epoch in 1:20
-			Ŷ_tr, Y_tr = get_data(subset_tr, my_model) # total 60k
+		for epoch in 1:10
+			with_logger(logger) do
+				@debug "Epoch: " epoch
+			end
 			
-			Ŷ_te, Y_te = get_data(subset_te, my_model) # total 10k
+			global Ŷ_tr, Y_tr = get_data(subset_tr, my_model) # total 60k
+			
+			global Ŷ_te, Y_te = get_data(subset_te, my_model) # total 10k
 			function evalcb()
 				global loss = Flux.mse(Ŷ_te, Y_te)
+				
+				with_logger(logger) do
+					@info "Train Loss: " Flux.mse(Ŷ_tr, Y_tr)
+					@info "Test Loss:" loss
+				end
+				
 				if loss < best_loss
 					@info "Updating model..."
 					@save "my_model.bson" my_model
@@ -448,18 +466,30 @@ begin
 			end
 			throttled_cb = Flux.throttle(evalcb, 2)
 			loss_fn = x -> Flux.mse(x[1], x[2])
-			Flux.train!(loss_fn, get_params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+			Flux.train!(loss_fn, Flux.params(my_model), (Ŷ_tr, Y_tr), AdamW(), cb = throttled_cb)
+
+			flush(io)
 		end
 		# final loss calculation
-		Ŷ_tr, Y_tr = get_data(subset_tr, my_model) # total 60k
-		Ŷ_te, Y_te = get_data(subset_te, my_model) # total 10k
+		global Ŷ_tr, Y_tr = get_data(subset_tr, my_model) # total 60k
+		global Ŷ_te, Y_te = get_data(subset_te, my_model) # total 10k
 		global loss = Flux.mse(Ŷ_te, Y_te)
+
+		with_logger(logger) do
+			@info "Train Loss: " Flux.mse(Ŷ_tr, Y_tr)
+			@info "Test Loss:" loss
+		end
+		
 		if loss < best_loss
 			@info "Updating model..."
 			@save "my_model.bson" my_model
 			global best_loss = loss
 		end
+
+		flush(io)
 	end
+
+	close(io)
 end
 
 # ╔═╡ aea0b048-2042-4b9f-be29-4830f429d256
@@ -527,28 +557,28 @@ function fid(a1, a2)
 end
 
 # ╔═╡ e92cf528-93e1-415f-845b-ccb90726e364
-# begin
-# 	reals = []
-# 	fakes = []
-# 	for p in 1:5000
-# 		tl = rand(1:5000)
-# 		my_img, my_noise = forward_diffusion(subset_tr[p], tl)
-# 		input = (my_img, tl)
-# 		out = my_model(input)
-# 		reals = vcat(reals, 
-# 			[get_activations(subset_tr[p][:,:,:,:,1], backbone)]
-# 		)
-# 		fakes = vcat(fakes, 
-# 			[get_activations(
-# 				retrieve_prediction(out, my_img, tl)[:,:,:,:,1],
-# 				backbone
-# 			)]
-# 		)
-# 	end
-# end
+begin
+	reals = []
+	fakes = []
+	for p in 1:5000
+		tl = rand(1:5000)
+		my_img, my_noise = forward_diffusion(subset_tr[p], tl)
+		input = (my_img, tl)
+		out = my_model(input)
+		reals = vcat(reals, 
+			[get_activations(subset_tr[p][:,:,:,:,1], backbone)]
+		)
+		fakes = vcat(fakes, 
+			[get_activations(
+				retrieve_prediction(out, my_img, tl)[:,:,:,:,1],
+				backbone
+			)]
+		)
+	end
+end
 
 # ╔═╡ dfe7f52e-b1e8-4fb2-bbbd-10ca7568e47c
-# fid(reals, fakes)
+fid(reals, fakes)
 
 # ╔═╡ 4dbfb2bd-be2f-4163-9c69-e3a10492f860
 # Flux.crossentropy(reals, fakes)
@@ -561,6 +591,7 @@ Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
 Metalhead = "dbeba491-748d-5e0e-a39e-b530a07fa0cc"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
@@ -572,7 +603,7 @@ BSON = "~0.3.6"
 Distributions = "~0.25.79"
 Flux = "~0.13.4"
 Images = "~0.25.2"
-MLDatasets = "~0.7.7"
+MLDatasets = "~0.7.6"
 Metalhead = "~0.7.3"
 PlutoUI = "~0.7.49"
 ProgressLogging = "~0.1.4"
@@ -584,7 +615,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "03904ebd08d8fe6395ceb184b3e12118190500c4"
+project_hash = "6efd975003719a1507ee2493d043ede229061bd6"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1463,9 +1494,9 @@ version = "2022.2.0+0"
 
 [[deps.MLDatasets]]
 deps = ["CSV", "Chemfiles", "DataDeps", "DataFrames", "DelimitedFiles", "FileIO", "FixedPointNumbers", "GZip", "Glob", "HDF5", "ImageShow", "JLD2", "JSON3", "LazyModules", "MAT", "MLUtils", "NPZ", "Pickle", "Printf", "Requires", "SparseArrays", "Tables"]
-git-tree-sha1 = "5c51a49d8cb7532dbd9ac06c16aa9d48b4de9b6f"
+git-tree-sha1 = "77345a68d55cf88c7df7cc5bcc2596717f93d6c5"
 uuid = "eb30cadb-4394-5ae3-aed4-317e484a6458"
-version = "0.7.7"
+version = "0.7.6"
 
 [[deps.MLStyle]]
 git-tree-sha1 = "060ef7956fef2dc06b0e63b294f7dbfbcbdc7ea2"
@@ -2183,6 +2214,7 @@ version = "17.4.0+0"
 # ╠═7d214d48-36f7-438a-b58c-f774c26b7946
 # ╠═a4f87c41-bb5c-462b-a0a2-a5a0c35e19fb
 # ╠═2f5682d7-55e9-4e19-bb74-05cad1f3bc41
+# ╠═69d0ed78-b858-4017-a429-4fcd3e0ea105
 # ╟─21b59186-0615-4bd4-a5dd-6881ea448c57
 # ╠═78a2a621-0faf-4322-8d2b-e418c3a335cb
 # ╠═aea0b048-2042-4b9f-be29-4830f429d256
