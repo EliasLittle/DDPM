@@ -1,0 +1,910 @@
+┌ Debug: Epoch: 
+│   epoch = 1
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36498135
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.9799
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 36.9799f0
+┌ Debug: Epoch: 
+│   epoch = 2
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3677402
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.077972
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 29.077972f0
+┌ Debug: Epoch: 
+│   epoch = 3
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3609143
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.383453
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 4
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36626184
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.668081
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 5
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3655752
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.03508
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 6
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3634027
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.76548
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 7
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36463755
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.067913
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 29.067913f0
+┌ Debug: Epoch: 
+│   epoch = 8
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3665034
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.81571
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 9
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36833727
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 40.49528
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 10
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36441836
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.47897
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 11
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36513183
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.012272
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 12
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36405948
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.65819
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 13
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3652377
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.16791
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 14
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.363582
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.883446
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 15
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36745933
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.841145
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 16
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36439577
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.164135
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 17
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3655053
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.01809
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 18
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36432043
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.656622
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 19
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36663797
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.084167
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 20
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36432424
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.866598
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 21
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36382335
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.8175
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 22
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3661437
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.8405
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 23
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3664589
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.575474
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 24
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3650642
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.052765
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 25
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3662769
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.9612
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 26
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36655542
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 40.133953
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 27
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3662438
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.08936
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 28
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3648273
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.429651
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 29
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3608858
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.85153
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 30
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36626658
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 27.03684
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+best_loss = 27.03684f0
+┌ Debug: Epoch: 
+│   epoch = 31
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36484703
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.9165
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 32
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36960632
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.985226
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 33
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36774516
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.139256
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 34
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36583194
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.666546
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 35
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36390778
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 42.83212
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 36
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3689638
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.18758
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 37
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36458692
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.45115
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 38
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3670278
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.191666
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 39
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36448675
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.53402
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 40
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3642156
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.101412
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 41
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3664075
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 38.14826
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 42
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3640933
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.6863
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 43
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3685406
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.340416
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 44
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3654746
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.304876
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 45
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3684175
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.968761
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 46
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36392048
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 27.70131
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 47
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36409092
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.668398
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 48
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3624567
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.21197
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 49
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36437494
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 39.92716
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 50
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36691353
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.26336
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 51
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36569285
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 38.87521
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 52
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3657808
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.615364
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 53
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3624402
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.172098
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 54
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36749476
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.034698
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 55
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3677607
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 28.761469
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 56
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3681963
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.820293
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 57
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36332202
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 28.14827
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 58
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3661998
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.039354
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 59
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3633764
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.878944
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 60
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36564645
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 28.460127
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 61
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36792618
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.29507
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 62
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3645962
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.554855
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 63
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36544254
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 37.12227
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 64
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3702863
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.592033
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 65
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3658168
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.148766
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 66
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3635397
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.936531
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 67
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36230415
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.369884
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 68
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36599445
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.020454
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 69
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36676532
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.71418
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 70
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36608577
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.195765
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 71
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36805874
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 40.852398
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 72
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3652107
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.44234
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 73
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3651056
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.96149
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 74
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36580485
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 32.95109
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 75
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3625902
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 43.25017
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 76
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36767048
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.268265
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 77
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36158258
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.424355
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 78
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36225495
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.7239
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 79
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36787504
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.704166
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 80
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3636652
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.630524
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 81
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36778724
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 36.421776
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 82
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3646277
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.079895
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 83
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36646873
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.53474
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 84
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36576203
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.341526
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 85
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3647958
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.618008
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 86
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36416766
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 30.57342
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 87
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36175928
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.59477
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 88
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3634515
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.309093
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 89
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3669219
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.41095
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 90
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36657566
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.29158
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 91
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3653414
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 33.010036
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 92
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36421895
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 37.919872
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 93
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36430654
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.95844
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 94
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36715502
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.540485
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 95
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3634202
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 29.04716
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 96
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3664531
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 35.989063
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 97
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36758944
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.052351
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 98
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36449492
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.278244
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 99
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.36621654
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 31.543318
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Debug: Epoch: 
+│   epoch = 100
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:7
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3655143
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:17
+┌ Info: Test Loss:
+│   loss = 34.913116
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:18
+┌ Info: Train Loss: 
+│   Flux.mse(Ŷ_tr, Y_tr) = 0.3646999
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:40
+┌ Info: Test Loss:
+│   loss = 31.129528
+└ @ Main.var"workspace#9" /Users/eliaslittle/Diffusion/notebook.jl#==#78a2a621-0faf-4322-8d2b-e418c3a335cb:41
